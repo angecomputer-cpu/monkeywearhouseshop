@@ -5,141 +5,69 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Monkey Wearhouse</title>
     <style>
-        /* RESET & BASE */
+        /* RESET TOTALE */
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body {
-            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-            background-color: #050505;
-            color: #ffffff;
-            overflow-x: hidden;
-        }
+        body { background-color: #050505; color: #fff; font-family: sans-serif; overflow-x: hidden; }
 
-        /* PRELOADER */
+        /* LOADING SCREEN - Forza visibilità immediata */
         #preloader {
             position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            background-color: #050505;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            z-index: 9999;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: #050505;
+            display: flex; flex-direction: column;
+            justify-content: center; align-items: center;
+            z-index: 99999;
         }
-        .monkey-icon { font-size: 60px; animation: pulse 1.5s infinite; }
-        .loading-text { color: #ffcc00; letter-spacing: 3px; font-weight: bold; margin-top: 10px; }
-        @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.1); } }
+        .monkey-face { font-size: 60px; margin-bottom: 10px; animation: bounce 1s infinite; }
+        .load-txt { color: #ffcc00; letter-spacing: 5px; font-weight: bold; }
+        @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
 
         /* HEADER */
         .monkey-header {
-            position: relative;
-            width: 100%;
-            height: 350px; /* Ancora più basso per dare spazio allo shop */
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background-color: #000;
+            position: relative; width: 100%; height: 300px;
+            background: #000; display: flex; justify-content: center; align-items: center;
         }
         .header-bg {
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background-image: url('header.jpg');
-            background-size: cover;
-            background-position: center;
-            z-index: 1;
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background-image: url('header.jpg'); background-size: cover; background-position: center;
         }
         .yellow-overlay {
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background-color: rgba(255, 204, 0, 0.4);
-            z-index: 2;
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(255, 204, 0, 0.4); z-index: 2;
         }
-        .main-logo { position: relative; z-index: 3; max-width: 220px; }
+        .main-logo { position: relative; z-index: 3; max-width: 200px; }
 
-        /* CAROSELLO RIMPICCIOLITO (FIX DEFINITIVO) */
-        .container {
-            max-width: 1000px;
-            margin: 0 auto;
-            padding: 30px 10px;
-        }
-        .section-title {
-            text-align: center;
-            font-size: 1.5rem;
-            color: #ffcc00;
-            text-transform: uppercase;
-            margin-bottom: 20px;
-        }
-        .carousel-container {
-            display: flex; /* Forza i prodotti su una riga */
-            overflow-x: auto; /* Abilita lo scroll orizzontale */
+        /* SHOP - MINI CAROUSEL */
+        .shop-container { padding: 40px 15px; max-width: 1000px; margin: 0 auto; }
+        .section-title { color: #ffcc00; text-align: center; margin-bottom: 25px; text-transform: uppercase; }
+        
+        .carousel {
+            display: flex; overflow-x: auto; gap: 15px; padding-bottom: 20px;
             scroll-snap-type: x mandatory;
-            gap: 15px;
-            padding-bottom: 20px;
-            scrollbar-width: thin; /* Per Firefox */
-            scrollbar-color: #ffcc00 #111;
         }
-        /* Nasconde scrollbar su Chrome/Safari */
-        .carousel-container::-webkit-scrollbar { height: 6px; }
-        .carousel-container::-webkit-scrollbar-thumb { background: #ffcc00; border-radius: 10px; }
-
+        /* FORZA DIMENSIONI PICCOLE */
         .product-card {
-            min-width: 160px; /* Larghezza fissa molto piccola */
-            max-width: 160px;
-            background: #111;
-            border: 1px solid #222;
-            border-radius: 8px;
-            cursor: pointer;
-            scroll-snap-align: start;
-            transition: 0.3s;
+            min-width: 160px; max-width: 160px; /* Dimensioni mini */
+            background: #111; border: 1px solid #222; border-radius: 10px;
+            scroll-snap-align: start; flex-shrink: 0;
         }
-        .product-card:hover { border-color: #ffcc00; }
-
-        .product-img-box {
-            width: 100%;
-            height: 180px;
-            background-color: #1a1a1a;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 0.6rem;
-            color: #444;
+        .product-img {
+            width: 100%; height: 180px; object-fit: cover; /* Ritaglia l'immagine senza deformarla */
+            border-top-left-radius: 10px; border-top-right-radius: 10px;
         }
         .product-info { padding: 10px; text-align: center; }
-        .product-info h3 { font-size: 0.8rem; margin-bottom: 5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .product-info h3 { font-size: 0.8rem; margin-bottom: 5px; }
         .price { color: #ffcc00; font-weight: bold; font-size: 0.9rem; }
 
         /* FOOTER */
-        footer {
-            background-color: #000;
-            padding: 40px 20px;
-            border-top: 1px solid #ffcc00;
-            text-align: center;
-            margin-top: 40px;
-        }
-        .footer-bottom { color: #555; font-size: 0.8rem; }
-
-        /* MODAL */
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 10000;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background-color: rgba(0,0,0,0.95);
-            justify-content: center; align-items: center;
-        }
-        .modal-content {
-            background: #111; width: 90%; max-width: 400px;
-            padding: 30px; border: 1px solid #ffcc00; border-radius: 10px;
-            text-align: center; position: relative;
-        }
-        .close-modal { position: absolute; top: 10px; right: 15px; font-size: 25px; color: #ffcc00; cursor: pointer; }
+        footer { padding: 30px; text-align: center; border-top: 1px solid #ffcc00; color: #555; font-size: 0.8rem; }
     </style>
 </head>
 <body>
 
     <div id="preloader">
-        <div class="monkey-icon">🐵</div>
-        <div class="loading-text">LOADING</div>
+        <div class="monkey-face">🐵</div>
+        <div class="load-txt">LOADING</div>
     </div>
 
     <header class="monkey-header">
@@ -148,52 +76,21 @@
         <img src="logo.png" alt="Logo" class="main-logo">
     </header>
 
-    <section class="container">
+    <main class="shop-container">
         <h2 class="section-title">Latest Drops</h2>
-        <div class="carousel-container">
-            <div class="product-card" onclick="openModal('Monkey Hoodie', '€ 65.00')">
-                <div class="product-img-box">IMAGE</div>
+        <div class="carousel">
+            <div class="product-card">
+                <img src="prodotto1.jpg" class="product-img" alt="Hoodie">
                 <div class="product-info">
                     <h3>Monkey Hoodie</h3>
                     <p class="price">€ 65.00</p>
                 </div>
             </div>
-            <div class="product-card" onclick="openModal('Warehouse Tee', '€ 35.00')">
-                <div class="product-img-box">IMAGE</div>
-                <div class="product-info">
-                    <h3>Warehouse Tee</h3>
-                    <p class="price">€ 35.00</p>
-                </div>
             </div>
-            <div class="product-card" onclick="openModal('Ancestral Cap', '€ 25.00')">
-                <div class="product-img-box">IMAGE</div>
-                <div class="product-info">
-                    <h3>Ancestral Cap</h3>
-                    <p class="price">€ 25.00</p>
-                </div>
-            </div>
-             <div class="product-card" onclick="openModal('Vinyl Bag', '€ 45.00')">
-                <div class="product-img-box">IMAGE</div>
-                <div class="product-info">
-                    <h3>Vinyl Bag</h3>
-                    <p class="price">€ 45.00</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <div id="productModal" class="modal">
-        <div class="modal-content">
-            <span class="close-modal" onclick="closeModal()">&times;</span>
-            <div style="width:100%; height:200px; background:#222; margin-bottom:20px; display:flex; align-items:center; justify-content:center;">IMMAGINE</div>
-            <h2 id="modalTitle" style="color: #ffcc00; font-size: 1.2rem;"></h2>
-            <p id="modalPrice" style="font-size: 1.4rem; font-weight:bold; margin: 10px 0;"></p>
-            <button style="padding:10px 20px; background:#ffcc00; border:none; font-weight:bold; cursor:pointer; width:100%;">ACQUISTA</button>
-        </div>
-    </div>
+    </main>
 
     <footer>
-        <p class="footer-bottom">&copy; 2026 MONKEY WEARHOUSE - We Knows Your Monkey</p>
+        &copy; 2026 MONKEY WEARHOUSE - We Knows Your Monkey
     </footer>
 
     <script>
@@ -202,17 +99,8 @@
             setTimeout(() => {
                 loader.style.opacity = '0';
                 setTimeout(() => loader.style.display = 'none', 500);
-            }, 800);
+            }, 1000);
         });
-
-        function openModal(title, price) {
-            document.getElementById('modalTitle').innerText = title;
-            document.getElementById('modalPrice').innerText = price;
-            document.getElementById('productModal').style.display = 'flex';
-        }
-        function closeModal() {
-            document.getElementById('productModal').style.display = 'none';
-        }
     </script>
 </body>
 </html>
