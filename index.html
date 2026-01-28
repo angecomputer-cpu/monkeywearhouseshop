@@ -6,16 +6,16 @@
     <title>Monkey Wearhouse</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { background: #050505; color: white; font-family: 'Helvetica Neue', Arial, sans-serif; overflow-x: hidden; }
+        body { background: #050505; color: white; font-family: 'Helvetica Neue', Arial, sans-serif; }
 
-        /* LOADING SCREEN - CANNA DI FUCILE */
+        /* LOADING SCREEN */
         #preloader { 
             position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
             background: #2a2a2a; display: flex; flex-direction: column; 
             justify-content: center; align-items: center; z-index: 9999; 
             transition: opacity 0.6s ease;
         }
-        .monkey-icon { max-width: 180px; height: auto; margin-bottom: 20px; }
+        .monkey-icon { max-width: 180px; margin-bottom: 20px; }
         .loader-sub { color: #ffffff; font-weight: bold; font-size: 1.2rem; letter-spacing: 4px; text-transform: uppercase; }
         .dots::after { content: ''; animation: blink-dots 1.5s infinite; }
         @keyframes blink-dots { 0% { content: ''; } 33% { content: '.'; } 66% { content: '..'; } 100% { content: '...'; } }
@@ -38,17 +38,23 @@
         /* SHOP CONTAINER */
         .shop-container { max-width: 1100px; margin: 40px auto; padding: 0 20px; }
         .product-card { 
-            background: #111; padding: 30px; border-radius: 15px; 
-            border: 1px solid #333; display: grid; grid-template-columns: 1fr 1fr; gap: 40px;
-            align-items: start;
+            background: #111; border-radius: 15px; border: 1px solid #333; 
+            display: grid; grid-template-columns: 1fr 1fr; gap: 40px; overflow: hidden;
         }
 
-        /* IMG DISPLAY - IL CAROSELLO FISSO */
-        .img-display { border: 2px solid #333; border-radius: 10px; overflow: hidden; background: #000; min-height: 400px; display: flex; align-items: center; }
-        .img-display img { width: 100%; height: auto; display: block; transition: opacity 0.5s ease; }
+        /* CAROSELLO CROSS-FADE */
+        .img-display { 
+            position: relative; width: 100%; height: 550px; background: #000; 
+        }
+        .img-display img { 
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%; 
+            object-fit: cover; /* Riempie il campo senza bordi vuoti */
+            opacity: 0; transition: opacity 1.2s ease-in-out; 
+        }
+        .img-display img.active { opacity: 1; }
 
         /* INFO STYLES */
-        .product-info { display: flex; flex-direction: column; text-align: left; }
+        .product-info { padding: 40px 30px 40px 0; display: flex; flex-direction: column; }
         .product-name { color: #ffcc00; font-size: 1.8rem; font-weight: 900; text-transform: uppercase; margin-bottom: 15px; }
         .product-desc { 
             font-size: 0.95rem; color: #ddd; line-height: 1.6; 
@@ -56,12 +62,9 @@
         }
         .product-price { font-size: 2.2rem; font-weight: bold; margin-bottom: 25px; }
 
-        /* SELECTORS */
         .selectors { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px; }
-        select { background: #222; color: #fff; border: 1px solid #444; padding: 12px; border-radius: 5px; font-weight: bold; cursor: pointer; appearance: none; }
-        .full-width { grid-column: span 2; }
-
-        /* BUY BUTTON */
+        select { background: #222; color: #fff; border: 1px solid #444; padding: 12px; border-radius: 5px; font-weight: bold; cursor: pointer; }
+        
         .btn-buy { 
             background: #ffcc00; color: #000; border: none; padding: 20px;
             font-size: 1.2rem; font-weight: 900; text-transform: uppercase;
@@ -69,7 +72,11 @@
         }
         .btn-buy:hover { background: #fff; }
 
-        @media (max-width: 768px) { .product-card { grid-template-columns: 1fr; } }
+        @media (max-width: 768px) { 
+            .product-card { grid-template-columns: 1fr; } 
+            .product-info { padding: 20px; }
+            .img-display { height: 400px; }
+        }
     </style>
 </head>
 <body>
@@ -88,9 +95,8 @@
     <div class="shop-container">
         <div class="product-card">
             
-            <div class="img-display">
-                <img id="main-img" src="img/felpe/cotton-heritage-m2580-i-unisex-premium-pullover-hoodie-black-front-6979e819d0ba2.jpg">
-            </div>
+            <div class="img-display" id="carousel-container">
+                </div>
 
             <div class="product-info">
                 <h2 class="product-name">The Monkey Hoodie | Hunger Series</h2>
@@ -101,9 +107,8 @@
                 <div class="product-price">€ 65.00</div>
 
                 <div class="selectors">
-                    <select name="color"><option>COLOR: BLACK</option><option>COLOR: FOREST GREEN</option></select>
-                    <select name="size"><option>SIZE: S</option><option>SIZE: M</option><option>SIZE: L</option><option>SIZE: XL</option></select>
-                    <select class="full-width"><option>QUANTITY: 1</option><option>QUANTITY: 2</option></select>
+                    <select><option>COLOR: BLACK</option><option>COLOR: FOREST GREEN</option></select>
+                    <select><option>SIZE: S</option><option>SIZE: M</option><option>SIZE: L</option><option>SIZE: XL</option></select>
                 </div>
                 <button class="btn-buy">I NEED MORE / BUY NOW</button>
             </div>
@@ -122,16 +127,23 @@
             "img/felpe/cotton-heritage-m2580-i-unisex-premium-pullover-hoodie-black-front-2-6979e819effee.jpg"
         ];
 
+        const container = document.getElementById('carousel-container');
+        let currentIndex = 0;
+
+        // Inseriamo tutte le immagini subito per il cross-fade fluido
+        inventory.forEach((path, index) => {
+            const img = document.createElement('img');
+            img.src = path;
+            if (index === 0) img.classList.add('active');
+            container.appendChild(img);
+        });
+
         function startCarousel() {
+            const imgs = container.getElementsByTagName('img');
             setInterval(() => {
-                const img = document.getElementById('main-img');
-                img.style.opacity = '0'; // Dissolvenza in uscita
-                
-                setTimeout(() => {
-                    const rand = inventory[Math.floor(Math.random() * inventory.length)];
-                    img.src = rand;
-                    img.style.opacity = '1'; // Dissolvenza in entrata
-                }, 500);
+                imgs[currentIndex].classList.remove('active');
+                currentIndex = (currentIndex + 1) % imgs.length; // Va in fila
+                imgs[currentIndex].classList.add('active');
             }, 3000);
         }
 
