@@ -11,13 +11,37 @@
         /* LOADING SCREEN */
         #preloader { 
             position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
-            background: #000; display: flex; justify-content: center; align-items: center; z-index: 9999; 
+            background: #000; display: flex; flex-direction: column; 
+            justify-content: center; align-items: center; z-index: 9999; 
         }
-        .loader-text { color: #ffcc00; font-weight: bold; font-size: 1.5rem; letter-spacing: 5px; }
+
+        /* La faccia della scimmia forzata bianca */
+        .monkey-icon { 
+            max-width: 120px; 
+            margin-bottom: 20px; 
+            filter: brightness(0) invert(1); /* Rende la PNG bianca */
+        }
+
+        .loader-title { 
+            color: #ffffff; 
+            font-weight: 900; 
+            font-size: 2.5rem; 
+            letter-spacing: 8px; 
+            text-transform: uppercase;
+        }
+
+        .loader-sub {
+            color: #ffcc00;
+            font-weight: bold;
+            font-size: 1rem;
+            letter-spacing: 3px;
+            margin-top: 10px;
+        }
+
         .dots::after { content: ''; animation: blink-dots 1.5s infinite; }
         @keyframes blink-dots { 0% { content: ''; } 33% { content: '.'; } 66% { content: '..'; } 100% { content: '...'; } }
 
-        /* HEADER */
+        /* HEADER GIALLO 0.75 */
         .monkey-header {
             position: relative; width: 100%; height: 400px;
             display: flex; justify-content: center; align-items: center; background: #000;
@@ -32,31 +56,24 @@
         }
         .main-logo { position: relative; z-index: 3; max-width: 280px; }
 
-        /* SHOP GRID */
+        /* GRIGLIA PRODOTTI */
         .shop-container {
             max-width: 1200px; margin: 50px auto; padding: 0 20px;
             display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px;
         }
         .product-card { background: #111; padding: 20px; border-radius: 8px; text-align: center; border: 1px solid #222; }
         .product-card img { width: 100%; height: auto; border-radius: 4px; margin-bottom: 15px; }
-        .product-name { color: #ffcc00; font-size: 0.9rem; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 1px; }
+        .product-name { color: #ffcc00; font-size: 0.9rem; margin-bottom: 10px; text-transform: uppercase; }
         .product-price { font-weight: bold; font-size: 1.2rem; margin-bottom: 15px; }
-
-        /* BUTTONS */
-        .btn-group { display: flex; gap: 10px; justify-content: center; }
-        .btn { 
-            padding: 10px 20px; border: none; border-radius: 4px; font-weight: bold; 
-            cursor: pointer; text-transform: uppercase; font-size: 0.8rem; transition: 0.3s;
-        }
-        .btn-yellow { background: #ffcc00; color: #000; }
-        .btn-black { background: #222; color: #fff; }
-        .btn:hover { opacity: 0.8; transform: scale(1.05); }
-
     </style>
 </head>
 <body>
 
-    <div id="preloader"><div class="loader-text">LOADING<span class="dots"></span></div></div>
+    <div id="preloader">
+        <img src="monkey_face.png" alt="Monkey Face" class="monkey-icon">
+        <div class="loader-title">MONKEY</div>
+        <div class="loader-sub">LOADING<span class="dots"></span></div>
+    </div>
 
     <header class="monkey-header">
         <div class="header-bg"></div>
@@ -69,20 +86,6 @@
             <img src="img/felpe/cotton-heritage-m2580-i-unisex-premium-pullover-hoodie-black-front-6979e819d0ba2.jpg">
             <div class="product-name">Black Classic Hoodie</div>
             <div class="product-price">€ 65.00</div>
-            <div class="btn-group">
-                <button class="btn btn-yellow">Buy Now</button>
-                <button class="btn btn-black">Details</button>
-            </div>
-        </div>
-
-        <div class="product-card">
-            <img src="img/felpe/cotton-heritage-m2580-i-unisex-premium-pullover-hoodie-forest-green-front-6979e81a124e4.jpg">
-            <div class="product-name">Forest Green Hoodie</div>
-            <div class="product-price">€ 65.00</div>
-            <div class="btn-group">
-                <button class="btn btn-yellow">Buy Now</button>
-                <button class="btn btn-black">Details</button>
-            </div>
         </div>
     </div>
 
