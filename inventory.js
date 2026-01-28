@@ -1,15 +1,15 @@
-cat << 'EOF' > inventory.js
 const monkeyInventory = [
-    // FELPE
-    "img/felpe/cotton-heritage-m2580-i-unisex-premium-pullover-hoodie-forest-green-front-2-6979e81a68f23.jpg",
-    "img/felpe/cotton-heritage-m2580-i-unisex-premium-pullover-hoodie-forest-green-front-2-6979e81a6a6df.jpg",
-    "img/felpe/cotton-heritage-m2580-i-unisex-premium-pullover-hoodie-black-front-2-6979e819ef780.jpg",
-    "img/felpe/cotton-heritage-m2580-i-unisex-premium-pullover-hoodie-forest-green-front-6979e81a124e4.jpg",
-    "img/felpe/cotton-heritage-m2580-i-unisex-premium-pullover-hoodie-black-front-6979e819d0ba2.jpg",
-    "img/felpe/cotton-heritage-m2580-i-unisex-premium-pullover-hoodie-black-back-6979e81a0478b.jpg",
-    "img/felpe/cotton-heritage-m2580-i-unisex-premium-pullover-hoodie-black-front-2-6979e819effee.jpg",
-    
-    // POLO
+    "felpe/img/felpe/cotton-heritage-m2580-i-unisex-premium-pullover-hoodie-forest-green-front-2-6979e81a68f23.jpg",
+    "felpe/img/felpe/cotton-heritage-m2580-i-unisex-premium-pullover-hoodie-forest-green-front-2-6979e81a6a6df.jpg",
+    "felpe/img/felpe/cotton-heritage-m2580-i-unisex-premium-pullover-hoodie-black-front-2-6979e819ef780.jpg",
+    "felpe/img/felpe/cotton-heritage-m2580-i-unisex-premium-pullover-hoodie-forest-green-front-6979e81a124e4.jpg",
+    "felpe/img/felpe/cotton-heritage-m2580-i-unisex-premium-pullover-hoodie-black-front-6979e819d0ba2.jpg",
+    "felpe/img/felpe/cotton-heritage-m2580-i-unisex-premium-pullover-hoodie-black-back-6979e81a0478b.jpg",
+    "felpe/img/felpe/cotton-heritage-m2580-i-unisex-premium-pullover-hoodie-black-front-2-6979e819effee.jpg",
+    "felpe/monkey_face.png",
+    "felpe/header.jpeg",
+    "felpe/logo_bn.png",
+    "felpe/logo_white.png",
     "polo/mens-all-over-print-slim-fit-polo-shirt-white-front-697a3b69cef75.jpg",
     "polo/mens-all-over-print-slim-fit-polo-shirt-white-left-front-697a3b69ced6e.jpg",
     "polo/mens-all-over-print-slim-fit-polo-shirt-white-product-details-697a3b69ce235.jpg",
@@ -17,8 +17,6 @@ const monkeyInventory = [
     "polo/mens-all-over-print-slim-fit-polo-shirt-white-right-front-697a3b69ce587.jpg",
     "polo/mens-all-over-print-slim-fit-polo-shirt-white-left-front-697a3b69ceec7.jpg",
     "polo/mens-all-over-print-slim-fit-polo-shirt-white-back-697a3b69ce6ed.jpg",
-
-    // SCARPE (IL MERCATO COMPLETO)
     "shoes/mens-high-top-canvas-shoes-black-product-details-2-697a3afda28e9.jpg",
     "shoes/mens-high-top-canvas-shoes-black-front-697a3afd9dfea.jpg",
     "shoes/mens-high-top-canvas-shoes-black-right-697a3afd9f029.jpg",
@@ -56,7 +54,7 @@ const monkeyInventory = [
     "shoes/mens-high-top-canvas-shoes-black-left-697a3afda43ee.jpg",
     "shoes/mens-high-top-canvas-shoes-black-right-front-697a3afd9ece6.jpg",
     "shoes/mens-high-top-canvas-shoes-black-left-697a3afda4765.jpg",
-    "shoes/mens-high-top-canvas-shoes-black-right-front-697a3afda38ae.jpg",
+    "shoes/mens-high-top-canvas-shoes-black-right-697a3afda38ae.jpg",
     "shoes/mens-high-top-canvas-shoes-black-left-outside-697a3afd9d4cc.jpg",
     "shoes/mens-high-top-canvas-shoes-black-front-697a3afda29d3.jpg",
     "shoes/mens-high-top-canvas-shoes-black-right-inside-697a3afda3335.jpg",
@@ -122,6 +120,5 @@ const monkeyInventory = [
     "shoes/mens-high-top-canvas-shoes-black-branding-3-697a3afda2634.jpg",
     "shoes/mens-high-top-canvas-shoes-black-left-697a3afda2ad7.jpg",
     "shoes/mens-high-top-canvas-shoes-black-left-back-697a3afd9d2f6.jpg",
-    "shoes/mens-high-top-canvas-shoes-black-left-front-697a3afda0993.jpg"
+    "shoes/mens-high-top-canvas-shoes-black-left-front-697a3afda0993.jpg",
 ];
-EOF
