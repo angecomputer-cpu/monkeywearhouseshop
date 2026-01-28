@@ -8,7 +8,7 @@
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { background: #050505; color: white; font-family: 'Helvetica Neue', Arial, sans-serif; overflow-x: hidden; }
 
-        /* LOADING SCREEN */
+        /* LOADING SCREEN - CANNA DI FUCILE */
         #preloader { 
             position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
             background: #2a2a2a; display: flex; flex-direction: column; 
@@ -22,7 +22,7 @@
 
         /* HEADER */
         .monkey-header {
-            position: relative; width: 100%; height: 400px;
+            position: relative; width: 100%; height: 350px;
             display: flex; justify-content: center; align-items: center; background: #000;
         }
         .header-bg {
@@ -33,53 +33,42 @@
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
             background-color: rgba(255, 204, 0, 0.75); z-index: 2;
         }
-        .main-logo { position: relative; z-index: 3; max-width: 280px; }
+        .main-logo { position: relative; z-index: 3; max-width: 250px; }
 
         /* SHOP CONTAINER */
-        .shop-container { max-width: 1100px; margin: 60px auto; padding: 0 20px; }
+        .shop-container { max-width: 1100px; margin: 40px auto; padding: 0 20px; }
         .product-card { 
             background: #111; padding: 30px; border-radius: 15px; 
             border: 1px solid #333; display: grid; grid-template-columns: 1fr 1fr; gap: 40px;
         }
 
-        /* CAROUSEL / GALLERY */
-        .product-gallery { display: flex; flex-direction: column; gap: 15px; }
-        .main-img-wrap { 
-            width: 100%; cursor: pointer; border-radius: 8px; overflow: hidden; 
-            border: 2px solid transparent; transition: 0.3s;
-        }
-        .main-img-wrap:hover { border-color: #ffcc00; }
-        .main-img-wrap img { width: 100%; height: auto; display: block; transition: transform 0.5s; }
-        .main-img-wrap:active img { transform: scale(1.1); }
-
-        .thumb-container { display: flex; gap: 10px; }
-        .thumb { 
-            width: 70px; height: 70px; border-radius: 4px; cursor: pointer; 
-            border: 2px solid #333; transition: 0.3s; object-fit: cover;
-        }
-        .thumb:hover, .thumb.active { border-color: #ffcc00; opacity: 0.8; }
+        /* IMG DISPLAY */
+        .img-display { cursor: pointer; border: 2px solid #333; border-radius: 10px; overflow: hidden; position: relative; background: #000; }
+        .img-display:hover { border-color: #ffcc00; }
+        .img-display img { width: 100%; height: auto; display: block; transition: opacity 0.2s; }
+        .img-hint { position: absolute; bottom: 10px; right: 10px; background: rgba(0,0,0,0.8); padding: 5px 12px; font-size: 0.7rem; color: #ffcc00; font-weight: bold; border-radius: 4px; }
 
         /* INFO STYLES */
-        .product-info { display: flex; flex-direction: column; }
+        .product-info { display: flex; flex-direction: column; text-align: left; }
         .product-name { color: #ffcc00; font-size: 1.8rem; font-weight: 900; text-transform: uppercase; margin-bottom: 15px; }
         .product-desc { 
             font-size: 0.95rem; color: #ddd; line-height: 1.6; 
             margin-bottom: 20px; border-left: 3px solid #ffcc00; padding-left: 15px;
         }
-        .product-price { font-size: 2rem; font-weight: bold; margin-bottom: 25px; }
+        .product-price { font-size: 2.2rem; font-weight: bold; margin-bottom: 25px; }
 
         /* SELECTORS */
         .selectors { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px; }
-        select { background: #222; color: #fff; border: 1px solid #444; padding: 12px; border-radius: 5px; cursor: pointer; }
+        select { background: #222; color: #fff; border: 1px solid #444; padding: 12px; border-radius: 5px; font-weight: bold; }
         .full-width { grid-column: span 2; }
 
         /* BUY BUTTON */
         .btn-buy { 
             background: #ffcc00; color: #000; border: none; padding: 20px;
             font-size: 1.2rem; font-weight: 900; text-transform: uppercase;
-            letter-spacing: 2px; cursor: pointer; border-radius: 5px; transition: 0.4s;
+            letter-spacing: 2px; cursor: pointer; border-radius: 5px; transition: 0.3s;
         }
-        .btn-buy:hover { background: #fff; }
+        .btn-buy:hover { background: #fff; transform: scale(1.02); }
 
         @media (max-width: 768px) { .product-card { grid-template-columns: 1fr; } }
     </style>
@@ -100,18 +89,13 @@
     <div class="shop-container">
         <div class="product-card">
             
-            <div class="product-gallery">
-                <div class="main-img-wrap" onclick="nextImage()">
-                    <img id="main-product-img" src="img/felpe/cotton-heritage-m2580-i-unisex-premium-pullover-hoodie-black-front-6979e819d0ba2.jpg">
-                </div>
-                <div class="thumb-container">
-                    <img class="thumb active" src="img/felpe/cotton-heritage-m2580-i-unisex-premium-pullover-hoodie-black-front-6979e819d0ba2.jpg" onclick="setImg('black', this)">
-                    <img class="thumb" src="img/felpe/cotton-heritage-m2580-i-unisex-premium-pullover-hoodie-forest-green-front-6979e81a124e4.jpg" onclick="setImg('green', this)">
-                </div>
+            <div class="img-display" onclick="randomProduct()">
+                <img id="main-img" src="img/felpe/cotton-heritage-m2580-i-unisex-premium-pullover-hoodie-black-front-6979e819d0ba2.jpg">
+                <div class="img-hint">CLICK TO MIX / I NEED MORE</div>
             </div>
 
             <div class="product-info">
-                <h2 class="product-name">The Monkey Hoodie | Hunger Series</h2>
+                <h2 id="p-name" class="product-name">Monkey Hoodie | Core</h2>
                 <div class="product-desc">
                     <strong>HEAVY FLEECE – FOR THE "I NEED MORE" GENERATION.</strong>
                     Built for the hungry—chasing the next beat, the next city, the next high. Feed the hunger. Never settle.
@@ -119,50 +103,47 @@
                 <div class="product-price">€ 65.00</div>
 
                 <div class="selectors">
-                    <select id="color-select" onchange="syncColor()">
-                        <option value="black">COLOR: BLACK</option>
-                        <option value="green">COLOR: FOREST GREEN</option>
-                    </select>
-                    <select id="size-select">
-                        <option>SIZE: S</option><option>SIZE: M</option><option>SIZE: L</option><option>SIZE: XL</option>
-                    </select>
-                    <select class="full-width">
-                        <option>QUANTITY: 1</option><option>QUANTITY: 2</option>
-                    </select>
+                    <select><option>SIZE: S</option><option>SIZE: M</option><option>SIZE: L</option><option>SIZE: XL</option></select>
+                    <select><option>QTY: 1</option><option>QTY: 2</option><option>QTY: 3</option></select>
                 </div>
-                <button class="btn-buy">I NEED MORE / BUY NOW</button>
+                <button class="btn-buy" onclick="randomProduct()">I NEED MORE / BUY NOW</button>
             </div>
 
         </div>
     </div>
 
     <script>
-        const images = {
-            black: 'img/felpe/cotton-heritage-m2580-i-unisex-premium-pullover-hoodie-black-front-6979e819d0ba2.jpg',
-            green: 'img/felpe/cotton-heritage-m2580-i-unisex-premium-pullover-hoodie-forest-green-front-6979e81a124e4.jpg'
-        };
+        // L'INVENTARIO COMPLETO DAL TUO TERMINALE
+        const inventory = [
+            "img/felpe/cotton-heritage-m2580-i-unisex-premium-pullover-hoodie-forest-green-front-2-6979e81a68f23.jpg",
+            "img/felpe/cotton-heritage-m2580-i-unisex-premium-pullover-hoodie-forest-green-front-2-6979e81a6a6df.jpg",
+            "img/felpe/cotton-heritage-m2580-i-unisex-premium-pullover-hoodie-black-front-2-6979e819ef780.jpg",
+            "img/felpe/cotton-heritage-m2580-i-unisex-premium-pullover-hoodie-forest-green-front-6979e81a124e4.jpg",
+            "img/felpe/cotton-heritage-m2580-i-unisex-premium-pullover-hoodie-black-front-6979e819d0ba2.jpg",
+            "img/felpe/cotton-heritage-m2580-i-unisex-premium-pullover-hoodie-black-back-6979e81a0478b.jpg",
+            "img/felpe/cotton-heritage-m2580-i-unisex-premium-pullover-hoodie-black-front-2-6979e819effee.jpg"
+        ];
 
-        function setImg(color, el) {
-            document.getElementById('main-product-img').src = images[color];
-            document.getElementById('color-select').value = color;
-            document.querySelectorAll('.thumb').forEach(t => t.classList.remove('active'));
-            el.classList.add('active');
-        }
-
-        function syncColor() {
-            const color = document.getElementById('color-select').value;
-            document.getElementById('main-product-img').src = images[color];
-            // Update thumbs
-            document.querySelectorAll('.thumb').forEach(t => {
-                t.classList.remove('active');
-                if(t.src.includes(color)) t.classList.add('active');
-            });
-        }
-
-        function nextImage() {
-            const select = document.getElementById('color-select');
-            select.selectedIndex = (select.selectedIndex + 1) % select.options.length;
-            syncColor();
+        function randomProduct() {
+            const imgElement = document.getElementById('main-img');
+            const nameElement = document.getElementById('p-name');
+            
+            // Effetto flash
+            imgElement.style.opacity = '0';
+            
+            setTimeout(() => {
+                const randPath = inventory[Math.floor(Math.random() * inventory.length)];
+                imgElement.src = randPath;
+                
+                // Cambia nome in base al colore trovato nel percorso
+                if(randPath.includes('black')) {
+                    nameElement.innerText = "Monkey Hoodie | Black Stealth";
+                } else {
+                    nameElement.innerText = "Monkey Hoodie | Forest Hunger";
+                }
+                
+                imgElement.style.opacity = '1';
+            }, 200);
         }
 
         window.addEventListener('load', () => {
