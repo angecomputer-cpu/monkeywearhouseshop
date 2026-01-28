@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monkey Wearhouse | Official Store</title>
+    <style>
+        body {
+            /* Pattern "nano" giallo come sfondo */
+            background-color: #000; /* Fallback */
+            background-image: linear-gradient(45deg, rgba(255, 204, 0, 0.05) 25%, transparent 25%, transparent 75%, rgba(255, 204, 0, 0.05) 75%, rgba(255, 204, 0, 0.05) 100%),
+                              linear-gradient(-45deg, rgba(255, 204, 0, 0.05) 25%, transparent 25%, transparent 75%, rgba(255, 204, 0, 0.05) 75%, rgba(255, 204, 0, 0.05) 100%);
+            background-size: 30px 30px; /* Dimensione del "pixel" del pattern */
+            background-attachment: fixed; /* Mantiene lo sfondo fisso allo scroll */
+
+            color: #fff;
+            font-family: 'Helvetica Neue', sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        /* Effetto dissolvenza iniziale */
+        .fade-in {
+            animation: fadeIn ease 2s;
+        }
+        @keyframes fadeIn {
+            0% {opacity:0;}
+            100% {opacity:1;}
+        }
+
+        header {
+            padding: 40px;
+            text-align: center;
+            width: 100%; /* L'header si estende su tutta la larghezza */
+            /* Aggiungi qui lo stile per il murales quando lo avremo */
+            /* background-image: url('URL_DEL_MURALES_QUI'); */
+            /* background-size: cover; */
+            /* background-position: center; */
+            /* min-height: 200px; /* Altezza minima per il murales */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        header img {
+            max-width: 200px;
+            margin-bottom: 20px;
+            z-index: 10; /* Per essere sopra l'immagine del murales */
+        }
+
+        header p {
+            z-index: 10;
+        }
+
+        .shop-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 40px;
+            padding: 20px;
+            max-width: 1200px;
+        }
+
+        .product-card {
+            background: rgba(17, 17, 17, 0.95); /* Opacità più alta per risaltare */
+            backdrop-filter: blur(5px); /* Effetto vetro sfocato */
+            border: 1px solid #333;
+            padding: 20px;
+            width: 300px;
+            text-align: center;
+            transition: transform 0.3s, border-color 0.3s;
+        }
+
+        .product-card:hover {
+            transform: translateY(-10px);
+            border-color: #ffcc00; /* Giallo Monkey per l'hover */
+        }
+
+        h3 { letter-spacing: 2px; text-transform: uppercase; }
+        .price { font-size: 1.5rem; color: #ffcc00; margin-bottom: 15px; } /* Prezzo giallo */
+
+        select {
+            background: #222;
+            color: #fff;
+            border: 1px solid #555;
+            padding: 10px;
+            width: 100%;
+            margin-bottom: 15px;
+            cursor: pointer;
+        }
+
+        .buy-btn {
+            background-color: #ffcc00; /* Bottone giallo */
+            color: #000;
+            border: none;
+            padding: 12px 25px;
+            font-weight: bold;
+            text-transform: uppercase;
+            cursor: pointer;
+            width: 100%;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .buy-btn:hover { background-color: #e0b300; } /* Giallo più scuro all'hover */
+        
+        footer { margin: 50px; color: #555; font-size: 0.8rem; }
+    </style>
+</head>
+<body class="fade-in">
+
+    <header>
+        <img src="logo.png" alt="Monkey Wearhouse Logo">
+        <p>"We know your Monkey." | Curated by dj-ah</p>
+    </header>
+
+    <div class="shop-container">
+        <div class="product-card">
+            <img src="felpa.jpg" alt="Forest Green Hoodie">
+            <h3>Forest Green Hoodie</h3>
+            <p class="price">€50.00</p>
+            <select>
+                <option>Size: S</option>
+                <option>Size: M</option>
+                <option>Size: L</option>
+            </select>
+            <a href="IL_TUO_LINK_PAYPAL_QUI" class="buy-btn">Acquista ora</a>
+        </div>
+
+        <div class="product-card">
+            <img src="maglietta.jpg" alt="Warehouse T-Shirt">
+            <h3>Warehouse T-Shirt</h3>
+            <p class="price">€35.00</p>
+            <select>
+                <option>Size: S</option>
+                <option>Size: M</option>
+                <option>Size: L</option>
+            </select>
+            <a href="IL_TUO_LINK_PAYPAL_QUI" class="buy-btn">Acquista ora</a>
+        </div>
+
+        <div class="product-card">
+            <img src="scarpe.jpg" alt="DJA-Committed Sneakers">
+            <h3>DJA Sneakers</h3>
+            <p class="price">€70.00</p>
+            <select>
+                <option>Size: 38-40</option>
+                <option>Size: 41-43</option>
+                <option>Size: 44-46</option>
+            </select>
+            <a href="IL_TUO_LINK_PAYPAL_QUI" class="buy-btn">Acquista ora</a>
+        </div>
+    </div>
+
+    <footer>
+        © 2026 Monkey Wearhouse | Official Underground Merch
+    </footer>
+
+</body>
+</html>
