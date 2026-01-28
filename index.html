@@ -5,13 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Monkey Wearhouse</title>
     <link rel="icon" type="image/png" href="monkey_face.png">
-    
     <style>
-        /* RESET & BASE */
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { background: #050505; color: white; font-family: 'Helvetica Neue', Arial, sans-serif; overflow-x: hidden; }
 
-        /* PRELOADER */
+        /* PRELOADER AGGIORNATO */
         #preloader { 
             position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
             background: #2a2a2a; display: flex; flex-direction: column; 
@@ -19,12 +17,7 @@
             transition: opacity 0.8s ease;
         }
         .monkey-icon { max-width: 150px; margin-bottom: 25px; animation: pulse 2s infinite; }
-        
-        .loader-text { 
-            color: #ffffff; font-weight: bold; font-size: 1.2rem; 
-            letter-spacing: 6px; text-transform: uppercase; text-align: center;
-        }
-        
+        .loader-text { color: #ffffff; font-weight: bold; font-size: 1.2rem; letter-spacing: 6px; text-transform: uppercase; text-align: center; }
         .dots-container { height: 20px; margin-top: 10px; display: flex; justify-content: center; }
         .dots::after { content: ''; font-size: 1.5rem; animation: blink-dots 1.5s infinite; letter-spacing: 4px; }
         
@@ -65,9 +58,7 @@
     <div id="preloader">
         <img src="monkey_face.png" alt="Monkey Face" class="monkey-icon">
         <div class="loader-text">LOADING</div>
-        <div class="dots-container">
-            <div class="dots"></div>
-        </div>
+        <div class="dots-container"><div class="dots"></div></div>
     </div>
 
     <header class="monkey-header">
@@ -83,8 +74,14 @@
                 <h2 class="product-name">Monkey Hoodies</h2>
                 <div class="product-price">€ 65.00</div>
                 <div class="selectors">
-                    <select><option>COLOR: BLACK / FOREST</option></select>
-                    <select><option>SIZE: S</option><option>SIZE: M</option><option>SIZE: L</option><option>SIZE: XL</option></select>
+                    <select>
+                        <option>COLOR: BLACK</option>
+                        <option>COLOR: FOREST GREEN</option>
+                    </select>
+                    <select>
+                        <option>SIZE: S</option><option>SIZE: M</option>
+                        <option>SIZE: L</option><option>SIZE: XL</option>
+                    </select>
                 </div>
                 <button class="btn-buy">ADD TO CART</button>
             </div>
@@ -97,7 +94,10 @@
                 <div class="product-price">€ 45.00</div>
                 <div class="selectors">
                     <select><option>COLOR: WHITE AOP</option></select>
-                    <select><option>SIZE: S</option><option>SIZE: M</option><option>SIZE: L</option><option>SIZE: XL</option></select>
+                    <select>
+                        <option>SIZE: S</option><option>SIZE: M</option>
+                        <option>SIZE: L</option><option>SIZE: XL</option>
+                    </select>
                 </div>
                 <button class="btn-buy">ADD TO CART</button>
             </div>
@@ -123,10 +123,13 @@
 
     <script src="inventory.js"></script>
     <script>
-        function setupCarousel(containerId, filterKeyword) {
+        function setupCarousel(containerId, folderName) {
             const container = document.getElementById(containerId);
             if (!container || typeof monkeyInventory === 'undefined') return;
-            const images = monkeyInventory.filter(path => path.toLowerCase().includes(filterKeyword.toLowerCase()));
+            
+            // Filtro immagini che iniziano con la cartella specifica
+            const images = monkeyInventory.filter(path => path.startsWith(folderName + '/'));
+            
             if (images.length === 0) return;
 
             const img1 = document.createElement('img');
@@ -167,6 +170,7 @@
             setTimeout(removePreloader, 1000);
         });
 
+        // Failsafe sblocco
         setTimeout(removePreloader, 4000);
     </script>
 </body>
