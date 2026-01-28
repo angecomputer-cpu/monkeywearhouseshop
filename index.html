@@ -40,13 +40,12 @@
         .product-card { 
             background: #111; padding: 30px; border-radius: 15px; 
             border: 1px solid #333; display: grid; grid-template-columns: 1fr 1fr; gap: 40px;
+            align-items: start;
         }
 
-        /* IMG DISPLAY */
-        .img-display { cursor: pointer; border: 2px solid #333; border-radius: 10px; overflow: hidden; position: relative; background: #000; }
-        .img-display:hover { border-color: #ffcc00; }
-        .img-display img { width: 100%; height: auto; display: block; transition: opacity 0.2s; }
-        .img-hint { position: absolute; bottom: 10px; right: 10px; background: rgba(0,0,0,0.8); padding: 5px 12px; font-size: 0.7rem; color: #ffcc00; font-weight: bold; border-radius: 4px; }
+        /* IMG DISPLAY - IL CAROSELLO FISSO */
+        .img-display { border: 2px solid #333; border-radius: 10px; overflow: hidden; background: #000; min-height: 400px; display: flex; align-items: center; }
+        .img-display img { width: 100%; height: auto; display: block; transition: opacity 0.5s ease; }
 
         /* INFO STYLES */
         .product-info { display: flex; flex-direction: column; text-align: left; }
@@ -59,7 +58,7 @@
 
         /* SELECTORS */
         .selectors { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px; }
-        select { background: #222; color: #fff; border: 1px solid #444; padding: 12px; border-radius: 5px; font-weight: bold; }
+        select { background: #222; color: #fff; border: 1px solid #444; padding: 12px; border-radius: 5px; font-weight: bold; cursor: pointer; appearance: none; }
         .full-width { grid-column: span 2; }
 
         /* BUY BUTTON */
@@ -68,7 +67,7 @@
             font-size: 1.2rem; font-weight: 900; text-transform: uppercase;
             letter-spacing: 2px; cursor: pointer; border-radius: 5px; transition: 0.3s;
         }
-        .btn-buy:hover { background: #fff; transform: scale(1.02); }
+        .btn-buy:hover { background: #fff; }
 
         @media (max-width: 768px) { .product-card { grid-template-columns: 1fr; } }
     </style>
@@ -89,13 +88,12 @@
     <div class="shop-container">
         <div class="product-card">
             
-            <div class="img-display" onclick="randomProduct()">
+            <div class="img-display">
                 <img id="main-img" src="img/felpe/cotton-heritage-m2580-i-unisex-premium-pullover-hoodie-black-front-6979e819d0ba2.jpg">
-                <div class="img-hint">CLICK TO MIX / I NEED MORE</div>
             </div>
 
             <div class="product-info">
-                <h2 id="p-name" class="product-name">Monkey Hoodie | Core</h2>
+                <h2 class="product-name">The Monkey Hoodie | Hunger Series</h2>
                 <div class="product-desc">
                     <strong>HEAVY FLEECE – FOR THE "I NEED MORE" GENERATION.</strong>
                     Built for the hungry—chasing the next beat, the next city, the next high. Feed the hunger. Never settle.
@@ -103,17 +101,17 @@
                 <div class="product-price">€ 65.00</div>
 
                 <div class="selectors">
-                    <select><option>SIZE: S</option><option>SIZE: M</option><option>SIZE: L</option><option>SIZE: XL</option></select>
-                    <select><option>QTY: 1</option><option>QTY: 2</option><option>QTY: 3</option></select>
+                    <select name="color"><option>COLOR: BLACK</option><option>COLOR: FOREST GREEN</option></select>
+                    <select name="size"><option>SIZE: S</option><option>SIZE: M</option><option>SIZE: L</option><option>SIZE: XL</option></select>
+                    <select class="full-width"><option>QUANTITY: 1</option><option>QUANTITY: 2</option></select>
                 </div>
-                <button class="btn-buy" onclick="randomProduct()">I NEED MORE / BUY NOW</button>
+                <button class="btn-buy">I NEED MORE / BUY NOW</button>
             </div>
 
         </div>
     </div>
 
     <script>
-        // L'INVENTARIO COMPLETO DAL TUO TERMINALE
         const inventory = [
             "img/felpe/cotton-heritage-m2580-i-unisex-premium-pullover-hoodie-forest-green-front-2-6979e81a68f23.jpg",
             "img/felpe/cotton-heritage-m2580-i-unisex-premium-pullover-hoodie-forest-green-front-2-6979e81a6a6df.jpg",
@@ -124,33 +122,26 @@
             "img/felpe/cotton-heritage-m2580-i-unisex-premium-pullover-hoodie-black-front-2-6979e819effee.jpg"
         ];
 
-        function randomProduct() {
-            const imgElement = document.getElementById('main-img');
-            const nameElement = document.getElementById('p-name');
-            
-            // Effetto flash
-            imgElement.style.opacity = '0';
-            
-            setTimeout(() => {
-                const randPath = inventory[Math.floor(Math.random() * inventory.length)];
-                imgElement.src = randPath;
+        function startCarousel() {
+            setInterval(() => {
+                const img = document.getElementById('main-img');
+                img.style.opacity = '0'; // Dissolvenza in uscita
                 
-                // Cambia nome in base al colore trovato nel percorso
-                if(randPath.includes('black')) {
-                    nameElement.innerText = "Monkey Hoodie | Black Stealth";
-                } else {
-                    nameElement.innerText = "Monkey Hoodie | Forest Hunger";
-                }
-                
-                imgElement.style.opacity = '1';
-            }, 200);
+                setTimeout(() => {
+                    const rand = inventory[Math.floor(Math.random() * inventory.length)];
+                    img.src = rand;
+                    img.style.opacity = '1'; // Dissolvenza in entrata
+                }, 500);
+            }, 3000);
         }
 
         window.addEventListener('load', () => {
             setTimeout(() => {
-                const loader = document.getElementById('preloader');
-                loader.style.opacity = '0';
-                setTimeout(() => loader.style.display = 'none', 600);
+                document.getElementById('preloader').style.opacity = '0';
+                setTimeout(() => {
+                    document.getElementById('preloader').style.display = 'none';
+                    startCarousel();
+                }, 600);
             }, 2000);
         });
     </script>
