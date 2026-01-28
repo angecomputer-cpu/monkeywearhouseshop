@@ -6,166 +6,139 @@
     <title>Monkey Wearhouse</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { background: #050505; color: white; font-family: 'Helvetica Neue', Arial, sans-serif; overflow-x: hidden; }
+        body { background: #050505; color: white; font-family: 'Helvetica Neue', Arial, sans-serif; }
 
-        /* LOADING SCREEN - CANNA DI FUCILE */
+        /* PRELOADER */
         #preloader { 
             position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
             background: #2a2a2a; display: flex; flex-direction: column; 
             justify-content: center; align-items: center; z-index: 9999; 
             transition: opacity 0.6s ease;
         }
-        .monkey-icon { max-width: 180px; margin-bottom: 20px; }
-        .loader-sub { color: #ffffff; font-weight: bold; font-size: 1.2rem; letter-spacing: 4px; text-transform: uppercase; }
-        .dots::after { content: ''; animation: blink-dots 1.5s infinite; }
-        @keyframes blink-dots { 0% { content: ''; } 33% { content: '.'; } 66% { content: '..'; } 100% { content: '...'; } }
 
         /* HEADER */
-        .monkey-header {
-            position: relative; width: 100%; height: 350px;
-            display: flex; justify-content: center; align-items: center; background: #000;
-        }
-        .header-bg {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background-image: url('header.jpg'); background-size: cover; background-position: center;
-        }
-        .yellow-overlay {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background-color: rgba(255, 204, 0, 0.75); z-index: 2;
-        }
-        .main-logo { position: relative; z-index: 3; max-width: 250px; }
+        .monkey-header { position: relative; width: 100%; height: 250px; display: flex; justify-content: center; align-items: center; }
+        .header-bg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: url('header.jpg') center/cover; }
+        .yellow-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255, 204, 0, 0.7); z-index: 1; }
+        .main-logo { position: relative; z-index: 2; max-width: 180px; }
 
-        /* SHOP CONTAINER */
-        .shop-container { max-width: 1100px; margin: 40px auto; padding: 0 20px; }
-        .product-card { 
-            background: #111; border-radius: 15px; border: 1px solid #333; 
-            display: grid; grid-template-columns: 1fr 1fr; gap: 40px; overflow: hidden;
-        }
+        /* GRIGLIA PRODOTTI */
+        .shop-container { max-width: 1200px; margin: 50px auto; padding: 0 20px; display: flex; flex-direction: column; gap: 80px; }
+        .product-card { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; background: #111; border-radius: 20px; overflow: hidden; border: 1px solid #333; }
 
-        /* CAROSELLO CROSS-FADE */
-        .img-display { 
-            position: relative; width: 100%; height: 600px; background: #000; 
-        }
-        .img-display img { 
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%; 
-            object-fit: cover; opacity: 0; transition: opacity 1s ease-in-out; 
-        }
+        /* CAROSELLO */
+        .img-display { position: relative; width: 100%; height: 550px; background: #000; }
+        .img-display img { position: absolute; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 0.8s ease; }
         .img-display img.active { opacity: 1; z-index: 10; }
 
-        /* INFO STYLES */
-        .product-info { padding: 40px 30px 40px 0; display: flex; flex-direction: column; justify-content: center; }
-        .product-name { color: #ffcc00; font-size: 2.2rem; font-weight: 900; text-transform: uppercase; margin-bottom: 15px; }
-        .product-desc { 
-            font-size: 1rem; color: #ddd; line-height: 1.6; 
-            margin-bottom: 25px; border-left: 4px solid #ffcc00; padding-left: 15px;
-        }
-        .product-price { font-size: 2.5rem; font-weight: bold; margin-bottom: 30px; }
-
-        /* SELECTORS */
-        .selectors { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 25px; }
-        select { background: #222; color: #fff; border: 1px solid #444; padding: 15px; border-radius: 5px; font-weight: bold; cursor: pointer; }
+        /* INFO */
+        .product-info { padding: 40px; display: flex; flex-direction: column; justify-content: center; }
+        .product-name { color: #ffcc00; font-size: 2.5rem; font-weight: 900; text-transform: uppercase; margin-bottom: 10px; }
+        .product-price { font-size: 2rem; font-weight: bold; margin-bottom: 25px; }
         
-        /* BUY BUTTON */
-        .btn-buy { 
-            background: #ffcc00; color: #000; border: none; padding: 22px;
-            font-size: 1.3rem; font-weight: 900; text-transform: uppercase;
-            letter-spacing: 2px; cursor: pointer; border-radius: 5px; transition: 0.3s;
-        }
-        .btn-buy:hover { background: #fff; transform: translateY(-2px); }
+        .selectors { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
+        select { background: #222; color: #fff; border: 1px solid #444; padding: 15px; border-radius: 5px; font-weight: bold; cursor: pointer; }
 
-        @media (max-width: 768px) { 
-            .product-card { grid-template-columns: 1fr; } 
-            .product-info { padding: 30px; }
-            .img-display { height: 450px; }
-        }
+        .btn-buy { background: #ffcc00; color: #000; border: none; padding: 20px; font-size: 1.2rem; font-weight: 900; text-transform: uppercase; cursor: pointer; border-radius: 5px; }
+        .btn-buy:hover { background: #fff; }
+
+        @media (max-width: 900px) { .product-card { grid-template-columns: 1fr; } .img-display { height: 400px; } }
     </style>
 </head>
 <body>
 
     <div id="preloader">
-        <img src="monkey_face.png" alt="Monkey Face" class="monkey-icon">
-        <div class="loader-sub">LOADING<span class="dots"></span></div>
+        <div style="color:white; font-weight:bold; letter-spacing:5px;">MONKEY LOADING...</div>
     </div>
 
     <header class="monkey-header">
         <div class="header-bg"></div>
         <div class="yellow-overlay"></div>
-        <img src="logo_white.png" alt="dj-ah logo" class="main-logo">
+        <img src="logo_white.png" alt="Logo" class="main-logo">
     </header>
 
     <div class="shop-container">
-        <div class="product-card">
-            
-            <div class="img-display" id="carousel-container">
-                </div>
-
+        
+        <div class="product-card" id="prod-felpe">
+            <div class="img-display" id="carousel-felpe"></div>
             <div class="product-info">
-                <h2 class="product-name">Monkey Hunger Collection</h2>
-                <div class="product-desc">
-                    <strong>FULL INVENTORY – SHOW NO MERCY.</strong><br>
-                    Dalle felpe alle scarpe, passando per le polo. Tutto il magazzino in un'unica vetrina. Se lo vedi, lo vuoi. Se lo vuoi, prendilo.
-                </div>
+                <h2 class="product-name">Monkey Hoodies</h2>
                 <div class="product-price">€ 65.00</div>
-
                 <div class="selectors">
-                    <select id="color-choice">
-                        <option>COLOR: SELECTION</option>
-                        <option>BLACK (HOODIE/SHOES)</option>
-                        <option>FOREST GREEN (HOODIE)</option>
-                        <option>WHITE (POLO)</option>
-                    </select>
-                    <select id="size-choice">
-                        <option>SIZE: S</option>
-                        <option>SIZE: M</option>
-                        <option>SIZE: L</option>
-                        <option>SIZE: XL</option>
+                    <select><option>COLOR: BLACK / FOREST</option></select>
+                    <select><option>SIZE: S</option><option>SIZE: M</option><option>SIZE: L</option><option>SIZE: XL</option></select>
+                </div>
+                <button class="btn-buy">ADD TO CART</button>
+            </div>
+        </div>
+
+        <div class="product-card" id="prod-polo">
+            <div class="img-display" id="carousel-polo"></div>
+            <div class="product-info">
+                <h2 class="product-name">Monkey Polo</h2>
+                <div class="product-price">€ 45.00</div>
+                <div class="selectors">
+                    <select><option>COLOR: WHITE AOP</option></select>
+                    <select><option>SIZE: S</option><option>SIZE: M</option><option>SIZE: L</option><option>SIZE: XL</option></select>
+                </div>
+                <button class="btn-buy">ADD TO CART</button>
+            </div>
+        </div>
+
+        <div class="product-card" id="prod-shoes">
+            <div class="img-display" id="carousel-shoes"></div>
+            <div class="product-info">
+                <h2 class="product-name">Monkey Shoes</h2>
+                <div class="product-price">€ 85.00</div>
+                <div class="selectors">
+                    <select><option>COLOR: BLACK CANVAS</option></select>
+                    <select>
+                        <option>EU 40 / US 7.5</option><option>EU 41 / US 8.5</option>
+                        <option>EU 42 / US 9</option><option>EU 43 / US 10</option>
+                        <option>EU 44 / US 10.5</option><option>EU 45 / US 11.5</option>
                     </select>
                 </div>
-                <button class="btn-buy">I NEED MORE / BUY NOW</button>
+                <button class="btn-buy">ADD TO CART</button>
             </div>
-
         </div>
+
     </div>
 
     <script src="inventory.js"></script>
-
     <script>
-        const container = document.getElementById('carousel-container');
-        let currentIndex = 0;
-
-        // Inizializzazione immagini dal database 'monkeyInventory' definito in inventory.js
-        if (typeof monkeyInventory !== 'undefined' && monkeyInventory.length > 0) {
-            monkeyInventory.forEach((path, index) => {
+        function setupCarousel(containerId, filterKeyword) {
+            const container = document.getElementById(containerId);
+            const filteredImages = monkeyInventory.filter(path => path.toLowerCase().includes(filterKeyword));
+            
+            filteredImages.forEach((path, index) => {
                 const img = document.createElement('img');
                 img.src = path;
                 img.setAttribute('loading', 'lazy');
                 if (index === 0) img.classList.add('active');
                 container.appendChild(img);
             });
-        }
 
-        function startCarousel() {
+            let current = 0;
             const imgs = container.getElementsByTagName('img');
-            if (imgs.length <= 1) return;
-            
-            setInterval(() => {
-                imgs[currentIndex].classList.remove('active');
-                currentIndex = (currentIndex + 1) % imgs.length; // Sequenziale
-                imgs[currentIndex].classList.add('active');
-            }, 3000);
+            if (imgs.length > 1) {
+                setInterval(() => {
+                    imgs[current].classList.remove('active');
+                    current = (current + 1) % imgs.length;
+                    imgs[current].classList.add('active');
+                }, 3000);
+            }
         }
 
         window.addEventListener('load', () => {
+            // Avviamo i tre caroselli separati
+            setupCarousel('carousel-felpe', 'felpe');
+            setupCarousel('carousel-polo', 'polo');
+            setupCarousel('carousel-shoes', 'shoes');
+
             setTimeout(() => {
-                const pre = document.getElementById('preloader');
-                if(pre) {
-                    pre.style.opacity = '0';
-                    setTimeout(() => {
-                        pre.style.display = 'none';
-                        startCarousel();
-                    }, 600);
-                }
-            }, 2000);
+                document.getElementById('preloader').style.opacity = '0';
+                setTimeout(() => document.getElementById('preloader').style.display = 'none', 600);
+            }, 1500);
         });
     </script>
 </body>
