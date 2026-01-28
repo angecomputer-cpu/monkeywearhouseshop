@@ -5,18 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Monkey Wearhouse</title>
     <style>
-        /* RESET & BASE */
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { background: #050505; color: white; font-family: 'Helvetica Neue', Arial, sans-serif; overflow-x: hidden; }
 
-        /* LOADING SCREEN - CANNA DI FUCILE */
+        /* LOADING SCREEN */
         #preloader { 
             position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
             background: #2a2a2a; display: flex; flex-direction: column; 
             justify-content: center; align-items: center; z-index: 9999; 
             transition: opacity 0.6s ease;
         }
-        .monkey-icon { max-width: 200px; height: auto; margin-bottom: 20px; }
+        .monkey-icon { max-width: 180px; height: auto; margin-bottom: 20px; }
         .loader-sub { color: #ffffff; font-weight: bold; font-size: 1.2rem; letter-spacing: 4px; text-transform: uppercase; }
         .dots::after { content: ''; animation: blink-dots 1.5s infinite; }
         @keyframes blink-dots { 0% { content: ''; } 33% { content: '.'; } 66% { content: '..'; } 100% { content: '...'; } }
@@ -38,39 +37,40 @@
 
         /* SHOP CONTAINER */
         .shop-container { max-width: 1100px; margin: 60px auto; padding: 0 20px; }
-        
         .product-card { 
             background: #111; padding: 30px; border-radius: 15px; 
             border: 1px solid #333; display: grid; grid-template-columns: 1fr 1fr; gap: 40px;
-            align-items: center;
         }
 
-        /* Mobile Responsive */
-        @media (max-width: 768px) {
-            .product-card { grid-template-columns: 1fr; padding: 20px; }
-            .monkey-header { height: 250px; }
+        /* CAROUSEL / GALLERY */
+        .product-gallery { display: flex; flex-direction: column; gap: 15px; }
+        .main-img-wrap { 
+            width: 100%; cursor: pointer; border-radius: 8px; overflow: hidden; 
+            border: 2px solid transparent; transition: 0.3s;
         }
+        .main-img-wrap:hover { border-color: #ffcc00; }
+        .main-img-wrap img { width: 100%; height: auto; display: block; transition: transform 0.5s; }
+        .main-img-wrap:active img { transform: scale(1.1); }
 
-        .product-img-container img { width: 100%; height: auto; border-radius: 8px; transition: 0.3s; }
+        .thumb-container { display: flex; gap: 10px; }
+        .thumb { 
+            width: 70px; height: 70px; border-radius: 4px; cursor: pointer; 
+            border: 2px solid #333; transition: 0.3s; object-fit: cover;
+        }
+        .thumb:hover, .thumb.active { border-color: #ffcc00; opacity: 0.8; }
 
-        .product-info { display: flex; flex-direction: column; text-align: left; }
+        /* INFO STYLES */
+        .product-info { display: flex; flex-direction: column; }
         .product-name { color: #ffcc00; font-size: 1.8rem; font-weight: 900; text-transform: uppercase; margin-bottom: 15px; }
-        
-        /* DESCRIPTION MOOD */
         .product-desc { 
             font-size: 0.95rem; color: #ddd; line-height: 1.6; 
             margin-bottom: 20px; border-left: 3px solid #ffcc00; padding-left: 15px;
         }
-        .product-desc strong { color: #fff; display: block; margin-bottom: 5px; }
-
-        .product-price { font-size: 2rem; font-weight: bold; margin-bottom: 25px; color: #fff; }
+        .product-price { font-size: 2rem; font-weight: bold; margin-bottom: 25px; }
 
         /* SELECTORS */
         .selectors { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px; }
-        select { 
-            background: #222; color: #fff; border: 1px solid #444; 
-            padding: 12px; border-radius: 5px; font-weight: bold; cursor: pointer;
-        }
+        select { background: #222; color: #fff; border: 1px solid #444; padding: 12px; border-radius: 5px; cursor: pointer; }
         .full-width { grid-column: span 2; }
 
         /* BUY BUTTON */
@@ -79,8 +79,9 @@
             font-size: 1.2rem; font-weight: 900; text-transform: uppercase;
             letter-spacing: 2px; cursor: pointer; border-radius: 5px; transition: 0.4s;
         }
-        .btn-buy:hover { background: #fff; transform: scale(1.03); }
+        .btn-buy:hover { background: #fff; }
 
+        @media (max-width: 768px) { .product-card { grid-template-columns: 1fr; } }
     </style>
 </head>
 <body>
@@ -99,41 +100,36 @@
     <div class="shop-container">
         <div class="product-card">
             
-            <div class="product-img-container">
-                <img id="main-product-img" src="img/felpe/cotton-heritage-m2580-i-unisex-premium-pullover-hoodie-black-front-6979e819d0ba2.jpg" alt="Monkey Hoodie">
+            <div class="product-gallery">
+                <div class="main-img-wrap" onclick="nextImage()">
+                    <img id="main-product-img" src="img/felpe/cotton-heritage-m2580-i-unisex-premium-pullover-hoodie-black-front-6979e819d0ba2.jpg">
+                </div>
+                <div class="thumb-container">
+                    <img class="thumb active" src="img/felpe/cotton-heritage-m2580-i-unisex-premium-pullover-hoodie-black-front-6979e819d0ba2.jpg" onclick="setImg('black', this)">
+                    <img class="thumb" src="img/felpe/cotton-heritage-m2580-i-unisex-premium-pullover-hoodie-forest-green-front-6979e81a124e4.jpg" onclick="setImg('green', this)">
+                </div>
             </div>
 
             <div class="product-info">
                 <h2 class="product-name">The Monkey Hoodie | Hunger Series</h2>
-                
                 <div class="product-desc">
                     <strong>HEAVY FLEECE – FOR THE "I NEED MORE" GENERATION.</strong>
-                    Built for the hungry—chasing the next beat, the next city, the next high. Thick enough to survive the cold, sharp enough to dominate the scene. Feed the hunger. Never settle.
+                    Built for the hungry—chasing the next beat, the next city, the next high. Feed the hunger. Never settle.
                 </div>
-
                 <div class="product-price">€ 65.00</div>
 
                 <div class="selectors">
-                    <select id="color-select" onchange="updateProduct()">
+                    <select id="color-select" onchange="syncColor()">
                         <option value="black">COLOR: BLACK</option>
                         <option value="green">COLOR: FOREST GREEN</option>
                     </select>
-
                     <select id="size-select">
-                        <option value="s">SIZE: S</option>
-                        <option value="m">SIZE: M</option>
-                        <option value="l">SIZE: L</option>
-                        <option value="xl">SIZE: XL</option>
-                        <option value="xxl">SIZE: XXL</option>
+                        <option>SIZE: S</option><option>SIZE: M</option><option>SIZE: L</option><option>SIZE: XL</option>
                     </select>
-
-                    <select id="qty-select" class="full-width">
-                        <option value="1">QUANTITY: 1</option>
-                        <option value="2">QUANTITY: 2</option>
-                        <option value="3">QUANTITY: 3</option>
+                    <select class="full-width">
+                        <option>QUANTITY: 1</option><option>QUANTITY: 2</option>
                     </select>
                 </div>
-
                 <button class="btn-buy">I NEED MORE / BUY NOW</button>
             </div>
 
@@ -141,19 +137,34 @@
     </div>
 
     <script>
-        // Gestione Cambio Colore (Carosello)
-        function updateProduct() {
-            const color = document.getElementById('color-select').value;
-            const img = document.getElementById('main-product-img');
-            
-            if(color === 'black') {
-                img.src = 'img/felpe/cotton-heritage-m2580-i-unisex-premium-pullover-hoodie-black-front-6979e819d0ba2.jpg';
-            } else if(color === 'green') {
-                img.src = 'img/felpe/cotton-heritage-m2580-i-unisex-premium-pullover-hoodie-forest-green-front-6979e81a124e4.jpg';
-            }
+        const images = {
+            black: 'img/felpe/cotton-heritage-m2580-i-unisex-premium-pullover-hoodie-black-front-6979e819d0ba2.jpg',
+            green: 'img/felpe/cotton-heritage-m2580-i-unisex-premium-pullover-hoodie-forest-green-front-6979e81a124e4.jpg'
+        };
+
+        function setImg(color, el) {
+            document.getElementById('main-product-img').src = images[color];
+            document.getElementById('color-select').value = color;
+            document.querySelectorAll('.thumb').forEach(t => t.classList.remove('active'));
+            el.classList.add('active');
         }
 
-        // Timer per chiusura Loading
+        function syncColor() {
+            const color = document.getElementById('color-select').value;
+            document.getElementById('main-product-img').src = images[color];
+            // Update thumbs
+            document.querySelectorAll('.thumb').forEach(t => {
+                t.classList.remove('active');
+                if(t.src.includes(color)) t.classList.add('active');
+            });
+        }
+
+        function nextImage() {
+            const select = document.getElementById('color-select');
+            select.selectedIndex = (select.selectedIndex + 1) % select.options.length;
+            syncColor();
+        }
+
         window.addEventListener('load', () => {
             setTimeout(() => {
                 const loader = document.getElementById('preloader');
