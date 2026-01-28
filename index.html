@@ -6,9 +6,9 @@
     <title>Monkey Wearhouse</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { background: #050505; color: white; font-family: 'Helvetica Neue', Arial, sans-serif; }
+        body { background: #050505; color: white; font-family: 'Helvetica Neue', Arial, sans-serif; overflow-x: hidden; }
 
-        /* --- PRELOADER RIPRISTINATO --- */
+        /* --- PRELOADER ANIMATO --- */
         #preloader { 
             position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
             background: #2a2a2a; display: flex; flex-direction: column; 
@@ -25,19 +25,19 @@
         /* HEADER */
         .monkey-header { position: relative; width: 100%; height: 250px; display: flex; justify-content: center; align-items: center; }
         .header-bg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: url('header.jpg') center/cover; }
-        .yellow-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255, 204, 0, 0.7); z-index: 1; }
+        .yellow-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255, 204, 0, 0.75); z-index: 1; }
         .main-logo { position: relative; z-index: 2; max-width: 180px; }
 
-        /* SHOP */
+        /* SHOP CONTAINER */
         .shop-container { max-width: 1100px; margin: 50px auto; padding: 0 20px; display: flex; flex-direction: column; gap: 60px; }
         .product-card { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; background: #111; border-radius: 20px; overflow: hidden; border: 1px solid #333; }
 
-        /* CAROSELLO */
+        /* CAROSELLO SMART (2 SLOT) */
         .img-display { position: relative; width: 100%; height: 550px; background: #000; }
-        .img-display img { position: absolute; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 0.8s ease; }
+        .img-display img { position: absolute; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 1s ease-in-out; }
         .img-display img.active { opacity: 1; z-index: 10; }
 
-        /* INFO */
+        /* INFO PRODOTTO */
         .product-info { padding: 40px; display: flex; flex-direction: column; justify-content: center; }
         .product-name { color: #ffcc00; font-size: 2.2rem; font-weight: 900; text-transform: uppercase; margin-bottom: 10px; }
         .product-price { font-size: 2rem; font-weight: bold; margin-bottom: 25px; }
@@ -113,43 +113,46 @@
 
     <script src="inventory.js"></script>
     <script>
-        function setupCarousel(containerId, filterKeyword) {
+        function setupEfficientCarousel(containerId, filterKeyword) {
             const container = document.getElementById(containerId);
-            // Cerca le immagini nel DB che contengono la parola chiave
-            const filtered = monkeyInventory.filter(path => path.toLowerCase().includes(filterKeyword));
-            
-            filtered.forEach((path, index) => {
-                const img = document.createElement('img');
-                img.src = path;
-                img.setAttribute('loading', 'lazy');
-                if (index === 0) img.classList.add('active');
-                container.appendChild(img);
-            });
+            const images = monkeyInventory.filter(path => path.toLowerCase().includes(filterKeyword));
+            if (images.length === 0) return;
 
-            let current = 0;
-            const imgs = container.getElementsByTagName('img');
-            if (imgs.length > 1) {
-                setInterval(() => {
-                    imgs[current].classList.remove('active');
-                    current = (current + 1) % imgs.length;
-                    imgs[current].classList.add('active');
-                }, 3000);
-            }
+            const img1 = document.createElement('img');
+            const img2 = document.createElement('img');
+            img1.classList.add('active');
+            container.appendChild(img1);
+            container.appendChild(img2);
+
+            img1.src = images[0];
+            let currentIdx = 0;
+            let toggle = true;
+
+            setInterval(() => {
+                currentIdx = (currentIdx + 1) % images.length;
+                const nextImg = toggle ? img2 : img1;
+                const activeImg = toggle ? img1 : img2;
+
+                nextImg.src = images[currentIdx];
+                nextImg.onload = () => {
+                    nextImg.classList.add('active');
+                    activeImg.classList.remove('active');
+                    toggle = !toggle;
+                };
+            }, 3500);
         }
 
         window.addEventListener('load', () => {
-            // Avvio caroselli
-            setupCarousel('carousel-felpe', 'felpe');
-            setupCarousel('carousel-polo', 'polo');
-            setupCarousel('carousel-shoes', 'shoes');
+            setupEfficientCarousel('carousel-felpe', 'felpe');
+            setupEfficientCarousel('carousel-polo', 'polo');
+            setupEfficientCarousel('carousel-shoes', 'shoes');
 
-            // Gestione sparizione preloader
             setTimeout(() => {
                 const pre = document.getElementById('preloader');
-                pre.style.opacity = '0';
-                setTimeout(() => {
-                    pre.style.display = 'none';
-                }, 800);
+                if(pre) {
+                    pre.style.opacity = '0';
+                    setTimeout(() => pre.style.display = 'none', 800);
+                }
             }, 2000);
         });
     </script>
