@@ -8,13 +8,19 @@
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { background: #050505; color: white; font-family: 'Helvetica Neue', Arial, sans-serif; }
 
-        /* PRELOADER */
+        /* --- PRELOADER RIPRISTINATO --- */
         #preloader { 
             position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
             background: #2a2a2a; display: flex; flex-direction: column; 
             justify-content: center; align-items: center; z-index: 9999; 
-            transition: opacity 0.6s ease;
+            transition: opacity 0.8s ease;
         }
+        .monkey-icon { max-width: 150px; margin-bottom: 20px; animation: pulse 2s infinite; }
+        .loader-sub { color: #ffffff; font-weight: bold; font-size: 1.2rem; letter-spacing: 4px; text-transform: uppercase; }
+        .dots::after { content: ''; animation: blink-dots 1.5s infinite; }
+        
+        @keyframes pulse { 0% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.05); opacity: 0.8; } 100% { transform: scale(1); opacity: 1; } }
+        @keyframes blink-dots { 0% { content: ''; } 33% { content: '.'; } 66% { content: '..'; } 100% { content: '...'; } }
 
         /* HEADER */
         .monkey-header { position: relative; width: 100%; height: 250px; display: flex; justify-content: center; align-items: center; }
@@ -22,8 +28,8 @@
         .yellow-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255, 204, 0, 0.7); z-index: 1; }
         .main-logo { position: relative; z-index: 2; max-width: 180px; }
 
-        /* GRIGLIA PRODOTTI */
-        .shop-container { max-width: 1200px; margin: 50px auto; padding: 0 20px; display: flex; flex-direction: column; gap: 80px; }
+        /* SHOP */
+        .shop-container { max-width: 1100px; margin: 50px auto; padding: 0 20px; display: flex; flex-direction: column; gap: 60px; }
         .product-card { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; background: #111; border-radius: 20px; overflow: hidden; border: 1px solid #333; }
 
         /* CAROSELLO */
@@ -33,14 +39,14 @@
 
         /* INFO */
         .product-info { padding: 40px; display: flex; flex-direction: column; justify-content: center; }
-        .product-name { color: #ffcc00; font-size: 2.5rem; font-weight: 900; text-transform: uppercase; margin-bottom: 10px; }
+        .product-name { color: #ffcc00; font-size: 2.2rem; font-weight: 900; text-transform: uppercase; margin-bottom: 10px; }
         .product-price { font-size: 2rem; font-weight: bold; margin-bottom: 25px; }
         
         .selectors { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
         select { background: #222; color: #fff; border: 1px solid #444; padding: 15px; border-radius: 5px; font-weight: bold; cursor: pointer; }
 
-        .btn-buy { background: #ffcc00; color: #000; border: none; padding: 20px; font-size: 1.2rem; font-weight: 900; text-transform: uppercase; cursor: pointer; border-radius: 5px; }
-        .btn-buy:hover { background: #fff; }
+        .btn-buy { background: #ffcc00; color: #000; border: none; padding: 20px; font-size: 1.2rem; font-weight: 900; text-transform: uppercase; cursor: pointer; border-radius: 5px; transition: 0.3s; }
+        .btn-buy:hover { background: #fff; transform: translateY(-2px); }
 
         @media (max-width: 900px) { .product-card { grid-template-columns: 1fr; } .img-display { height: 400px; } }
     </style>
@@ -48,7 +54,8 @@
 <body>
 
     <div id="preloader">
-        <div style="color:white; font-weight:bold; letter-spacing:5px;">MONKEY LOADING...</div>
+        <img src="monkey_face.png" alt="Monkey Face" class="monkey-icon">
+        <div class="loader-sub">MONKEY LOADING<span class="dots"></span></div>
     </div>
 
     <header class="monkey-header">
@@ -59,7 +66,7 @@
 
     <div class="shop-container">
         
-        <div class="product-card" id="prod-felpe">
+        <div class="product-card">
             <div class="img-display" id="carousel-felpe"></div>
             <div class="product-info">
                 <h2 class="product-name">Monkey Hoodies</h2>
@@ -72,7 +79,7 @@
             </div>
         </div>
 
-        <div class="product-card" id="prod-polo">
+        <div class="product-card">
             <div class="img-display" id="carousel-polo"></div>
             <div class="product-info">
                 <h2 class="product-name">Monkey Polo</h2>
@@ -85,7 +92,7 @@
             </div>
         </div>
 
-        <div class="product-card" id="prod-shoes">
+        <div class="product-card">
             <div class="img-display" id="carousel-shoes"></div>
             <div class="product-info">
                 <h2 class="product-name">Monkey Shoes</h2>
@@ -108,9 +115,10 @@
     <script>
         function setupCarousel(containerId, filterKeyword) {
             const container = document.getElementById(containerId);
-            const filteredImages = monkeyInventory.filter(path => path.toLowerCase().includes(filterKeyword));
+            // Cerca le immagini nel DB che contengono la parola chiave
+            const filtered = monkeyInventory.filter(path => path.toLowerCase().includes(filterKeyword));
             
-            filteredImages.forEach((path, index) => {
+            filtered.forEach((path, index) => {
                 const img = document.createElement('img');
                 img.src = path;
                 img.setAttribute('loading', 'lazy');
@@ -130,15 +138,19 @@
         }
 
         window.addEventListener('load', () => {
-            // Avviamo i tre caroselli separati
+            // Avvio caroselli
             setupCarousel('carousel-felpe', 'felpe');
             setupCarousel('carousel-polo', 'polo');
             setupCarousel('carousel-shoes', 'shoes');
 
+            // Gestione sparizione preloader
             setTimeout(() => {
-                document.getElementById('preloader').style.opacity = '0';
-                setTimeout(() => document.getElementById('preloader').style.display = 'none', 600);
-            }, 1500);
+                const pre = document.getElementById('preloader');
+                pre.style.opacity = '0';
+                setTimeout(() => {
+                    pre.style.display = 'none';
+                }, 800);
+            }, 2000);
         });
     </script>
 </body>
