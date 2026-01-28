@@ -4,26 +4,35 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Monkey Wearhouse</title>
+    <link rel="icon" type="image/png" href="monkey_face.png">
+    
     <style>
+        /* RESET & BASE */
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { background: #050505; color: white; font-family: 'Helvetica Neue', Arial, sans-serif; overflow-x: hidden; }
 
-        /* --- PRELOADER ANIMATO --- */
+        /* PRELOADER */
         #preloader { 
             position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
             background: #2a2a2a; display: flex; flex-direction: column; 
             justify-content: center; align-items: center; z-index: 9999; 
             transition: opacity 0.8s ease;
         }
-        .monkey-icon { max-width: 150px; margin-bottom: 20px; animation: pulse 2s infinite; }
-        .loader-sub { color: #ffffff; font-weight: bold; font-size: 1.2rem; letter-spacing: 4px; text-transform: uppercase; }
-        .dots::after { content: ''; animation: blink-dots 1.5s infinite; }
+        .monkey-icon { max-width: 150px; margin-bottom: 25px; animation: pulse 2s infinite; }
+        
+        .loader-text { 
+            color: #ffffff; font-weight: bold; font-size: 1.2rem; 
+            letter-spacing: 6px; text-transform: uppercase; text-align: center;
+        }
+        
+        .dots-container { height: 20px; margin-top: 10px; display: flex; justify-content: center; }
+        .dots::after { content: ''; font-size: 1.5rem; animation: blink-dots 1.5s infinite; letter-spacing: 4px; }
         
         @keyframes pulse { 0% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.05); opacity: 0.8; } 100% { transform: scale(1); opacity: 1; } }
         @keyframes blink-dots { 0% { content: ''; } 33% { content: '.'; } 66% { content: '..'; } 100% { content: '...'; } }
 
         /* HEADER */
-        .monkey-header { position: relative; width: 100%; height: 250px; display: flex; justify-content: center; align-items: center; }
+        .monkey-header { position: relative; width: 100%; height: 250px; display: flex; justify-content: center; align-items: center; background: #000; }
         .header-bg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: url('header.jpg') center/cover; }
         .yellow-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255, 204, 0, 0.75); z-index: 1; }
         .main-logo { position: relative; z-index: 2; max-width: 180px; }
@@ -32,7 +41,7 @@
         .shop-container { max-width: 1100px; margin: 50px auto; padding: 0 20px; display: flex; flex-direction: column; gap: 60px; }
         .product-card { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; background: #111; border-radius: 20px; overflow: hidden; border: 1px solid #333; }
 
-        /* CAROSELLO SMART (2 SLOT) */
+        /* CAROSELLO */
         .img-display { position: relative; width: 100%; height: 550px; background: #000; }
         .img-display img { position: absolute; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 1s ease-in-out; }
         .img-display img.active { opacity: 1; z-index: 10; }
@@ -43,7 +52,7 @@
         .product-price { font-size: 2rem; font-weight: bold; margin-bottom: 25px; }
         
         .selectors { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
-        select { background: #222; color: #fff; border: 1px solid #444; padding: 15px; border-radius: 5px; font-weight: bold; cursor: pointer; }
+        select { background: #222; color: #fff; border: 1px solid #444; padding: 15px; border-radius: 5px; font-weight: bold; cursor: pointer; outline: none; }
 
         .btn-buy { background: #ffcc00; color: #000; border: none; padding: 20px; font-size: 1.2rem; font-weight: 900; text-transform: uppercase; cursor: pointer; border-radius: 5px; transition: 0.3s; }
         .btn-buy:hover { background: #fff; transform: translateY(-2px); }
@@ -55,7 +64,10 @@
 
     <div id="preloader">
         <img src="monkey_face.png" alt="Monkey Face" class="monkey-icon">
-        <div class="loader-sub">MONKEY LOADING<span class="dots"></span></div>
+        <div class="loader-text">LOADING</div>
+        <div class="dots-container">
+            <div class="dots"></div>
+        </div>
     </div>
 
     <header class="monkey-header">
@@ -65,7 +77,6 @@
     </header>
 
     <div class="shop-container">
-        
         <div class="product-card">
             <div class="img-display" id="carousel-felpe"></div>
             <div class="product-info">
@@ -108,14 +119,14 @@
                 <button class="btn-buy">ADD TO CART</button>
             </div>
         </div>
-
     </div>
 
     <script src="inventory.js"></script>
     <script>
-        function setupEfficientCarousel(containerId, filterKeyword) {
+        function setupCarousel(containerId, filterKeyword) {
             const container = document.getElementById(containerId);
-            const images = monkeyInventory.filter(path => path.toLowerCase().includes(filterKeyword));
+            if (!container || typeof monkeyInventory === 'undefined') return;
+            const images = monkeyInventory.filter(path => path.toLowerCase().includes(filterKeyword.toLowerCase()));
             if (images.length === 0) return;
 
             const img1 = document.createElement('img');
@@ -132,7 +143,6 @@
                 currentIdx = (currentIdx + 1) % images.length;
                 const nextImg = toggle ? img2 : img1;
                 const activeImg = toggle ? img1 : img2;
-
                 nextImg.src = images[currentIdx];
                 nextImg.onload = () => {
                     nextImg.classList.add('active');
@@ -142,19 +152,22 @@
             }, 3500);
         }
 
-        window.addEventListener('load', () => {
-            setupEfficientCarousel('carousel-felpe', 'felpe');
-            setupEfficientCarousel('carousel-polo', 'polo');
-            setupEfficientCarousel('carousel-shoes', 'shoes');
+        function removePreloader() {
+            const pre = document.getElementById('preloader');
+            if (pre) {
+                pre.style.opacity = '0';
+                setTimeout(() => { pre.style.display = 'none'; }, 800);
+            }
+        }
 
-            setTimeout(() => {
-                const pre = document.getElementById('preloader');
-                if(pre) {
-                    pre.style.opacity = '0';
-                    setTimeout(() => pre.style.display = 'none', 800);
-                }
-            }, 2000);
+        window.addEventListener('load', () => {
+            setupCarousel('carousel-felpe', 'felpe');
+            setupCarousel('carousel-polo', 'polo');
+            setupCarousel('carousel-shoes', 'shoes');
+            setTimeout(removePreloader, 1000);
         });
+
+        setTimeout(removePreloader, 4000);
     </script>
 </body>
 </html>
