@@ -8,34 +8,27 @@
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { background: #050505; color: white; font-family: 'Helvetica Neue', Arial, sans-serif; }
 
-        /* LOADING SCREEN */
+        /* LOADING SCREEN - CANNA DI FUCILE */
         #preloader { 
             position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
-            background: #000; display: flex; flex-direction: column; 
+            background: #2a2a2a; /* Grigio scuro per far vedere i bordi neri della scimmia */
+            display: flex; flex-direction: column; 
             justify-content: center; align-items: center; z-index: 9999; 
         }
 
-        /* La faccia della scimmia forzata bianca */
         .monkey-icon { 
-            max-width: 120px; 
-            margin-bottom: 20px; 
-            filter: brightness(0) invert(1); /* Rende la PNG bianca */
-        }
-
-        .loader-title { 
-            color: #ffffff; 
-            font-weight: 900; 
-            font-size: 2.5rem; 
-            letter-spacing: 8px; 
-            text-transform: uppercase;
+            max-width: 220px; /* Dimensione decisa per l'impatto visivo */
+            height: auto;
+            margin-bottom: 20px;
+            /* Nessun filtro: così vediamo la scimmia originale con gli occhiali */
         }
 
         .loader-sub {
-            color: #ffcc00;
+            color: #ffffff; /* LOADING ORA È BIANCO */
             font-weight: bold;
-            font-size: 1rem;
-            letter-spacing: 3px;
-            margin-top: 10px;
+            font-size: 1.2rem;
+            letter-spacing: 4px;
+            text-transform: uppercase;
         }
 
         .dots::after { content: ''; animation: blink-dots 1.5s infinite; }
@@ -56,7 +49,7 @@
         }
         .main-logo { position: relative; z-index: 3; max-width: 280px; }
 
-        /* GRIGLIA PRODOTTI */
+        /* SHOP GRID */
         .shop-container {
             max-width: 1200px; margin: 50px auto; padding: 0 20px;
             display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px;
@@ -64,14 +57,13 @@
         .product-card { background: #111; padding: 20px; border-radius: 8px; text-align: center; border: 1px solid #222; }
         .product-card img { width: 100%; height: auto; border-radius: 4px; margin-bottom: 15px; }
         .product-name { color: #ffcc00; font-size: 0.9rem; margin-bottom: 10px; text-transform: uppercase; }
-        .product-price { font-weight: bold; font-size: 1.2rem; margin-bottom: 15px; }
+        .product-price { font-weight: bold; font-size: 1.2rem; }
     </style>
 </head>
 <body>
 
     <div id="preloader">
         <img src="monkey_face.png" alt="Monkey Face" class="monkey-icon">
-        <div class="loader-title">MONKEY</div>
         <div class="loader-sub">LOADING<span class="dots"></span></div>
     </div>
 
@@ -93,8 +85,9 @@
         window.addEventListener('load', () => {
             setTimeout(() => {
                 const loader = document.getElementById('preloader');
+                loader.style.transition = 'opacity 0.6s ease';
                 loader.style.opacity = '0';
-                setTimeout(() => loader.style.display = 'none', 500);
+                setTimeout(() => loader.style.display = 'none', 600);
             }, 2000);
         });
     </script>
