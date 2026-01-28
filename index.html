@@ -102,6 +102,64 @@
         .product-info h3 { font-size: 0.9rem; text-transform: uppercase; }
         .price { color: #ffcc00; font-weight: bold; font-size: 1rem; }
 
+        /* FOOTER */
+        footer {
+            background-color: #000;
+            padding: 60px 20px 20px;
+            border-top: 2px solid #ffcc00;
+            margin-top: 80px;
+        }
+
+        .footer-content {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-section h4 {
+            color: #ffcc00;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+        }
+
+        .footer-section ul { list-style: none; }
+        .footer-section ul li { margin-bottom: 10px; }
+        .footer-section ul li a {
+            color: #aaa;
+            text-decoration: none;
+            transition: 0.3s;
+        }
+        .footer-section ul li a:hover { color: #ffcc00; }
+
+        .newsletter input {
+            padding: 10px;
+            width: 70%;
+            border: 1px solid #333;
+            background: #111;
+            color: #fff;
+        }
+
+        .newsletter button {
+            padding: 10px;
+            background: #ffcc00;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid #222;
+            color: #555;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+        }
+
         /* POP-UP (MODAL) */
         .modal {
             display: none;
@@ -140,14 +198,6 @@
             top: 10px; right: 20px;
             font-size: 30px; color: #ffcc00;
             cursor: pointer;
-        }
-
-        footer {
-            background-color: #000;
-            padding: 30px;
-            text-align: center;
-            border-top: 1px solid #ffcc00;
-            margin-top: 50px;
         }
     </style>
 </head>
@@ -202,7 +252,41 @@
     </div>
 
     <footer>
-        <p>&copy; 2026 MONKEY WEARHOUSE</p>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>Shop</h4>
+                <ul>
+                    <li><a href="#">Record Store</a></li>
+                    <li><a href="#">Clothing</a></li>
+                    <li><a href="#">Accessories</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Social</h4>
+                <ul>
+                    <li><a href="#">Instagram</a></li>
+                    <li><a href="#">Soundcloud</a></li>
+                    <li><a href="#">Facebook</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Support</h4>
+                <ul>
+                    <li><a href="#">Contact Us</a></li>
+                    <li><a href="#">Shipping</a></li>
+                    <li><a href="#">Returns</a></li>
+                </ul>
+            </div>
+            <div class="footer-section newsletter">
+                <h4>Newsletter</h4>
+                <p style="font-size: 0.8rem; margin-bottom: 15px;">Join the tribe for exclusive drops.</p>
+                <input type="email" placeholder="Email address">
+                <button>OK</button>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 MONKEY WEARHOUSE - We Knows Your Monkey</p>
+        </div>
     </footer>
 
     <script>
