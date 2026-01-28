@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monkey Wearhouse</title>
+    <style>
+        body { background: #050505; color: white; font-family: sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; opacity: 0; transition: opacity 1s; }
+        #preloader { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; display: flex; justify-content: center; align-items: center; z-index: 99; }
+        .loader { color: #ffcc00; font-weight: bold; font-size: 2rem; animation: pulse 1s infinite; }
+        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.1); } 100% { transform: scale(1); } }
+        .content { text-align: center; }
+        img { max-width: 200px; }
+        .footer-logo { width: 20px; height: 20px; margin-top: 20px; }
+    </style>
+</head>
+<body>
+    <div id="preloader"><div class="loader">MONKEY LOADING...</div></div>
+    
+    <div class="content">
+        <img src="logo_white.png" alt="Logo">
+        <h1>Monkey Wearhouse</h1>
+        <p>Il sito è in aggiornamento...</p>
+        <img src="monkey_face.png" alt="M" class="footer-logo">
+    </div>
+
+    <script>
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.getElementById('preloader').style.display = 'none';
+                document.body.style.opacity = '1';
+            }, 2000);
+        });
+    </script>
+</body>
+</html>
